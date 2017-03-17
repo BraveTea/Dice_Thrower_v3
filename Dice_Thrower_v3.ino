@@ -4,6 +4,9 @@
 // in this version it will show the correct form of the pips on the dice
 
 // give dNum the max number of pips you want on your dice
+int buttonState;
+int pushPin = 11;
+
 const int dNum = 6; //as in d8 or d6 or d4 CAN'T BE HIGHER THAN 9!
 
 const int ROW_COUNT = 3;
@@ -33,52 +36,64 @@ void setup()
       pinMode(ledMatrix[i][j], OUTPUT);
     }
   }
+  pinMode(pushPin, INPUT);
   Serial.begin(9600);
   randomSeed(analogRead(A0));
   Serial.println(); //for random() checking reasons
 }
 
-
 void loop()
 {
-  int num;
-  int mapChange;
-  int thouNum = dNum * 1000;
-  num = random(thouNum + thouNum * 0.66);
-  mapChange = map(num, 1, thouNum + thouNum * 0.66, 1, dNum + 1);
+  randomLoop();
+}
 
-  if (mapChange == 1)
-    one();
+int randomLoop()
+{
+  int buttonState = digitalRead(pushPin);
 
-  if (mapChange == 2)
-    two();
+  if (buttonState == HIGH)
+  {
+    int num;
+    int mapChange;
+    int thouNum = dNum * 1000;
+    num = random(thouNum + thouNum * 0.66);
+    mapChange = map(num, 1, thouNum + thouNum * 0.66, 1, dNum + 1);
 
-  if (mapChange == 3)
-    three();
+    if (mapChange == 1)
+      one();
 
-  if (mapChange == 4)
-    four();
+    if (mapChange == 2)
+      two();
 
-  if (mapChange == 5)
-    five();
+    if (mapChange == 3)
+      three();
 
-  if (mapChange == 6)
-    six();
+    if (mapChange == 4)
+      four();
 
-  if (mapChange == 7)
-    seven();
+    if (mapChange == 5)
+      five();
 
-  if (mapChange == 8)
-    eight();
+    if (mapChange == 6)
+      six();
 
-  if (mapChange == 9)
-    nine();
+    if (mapChange == 7)
+      seven();
 
-  Serial.print(mapChange);
-  Serial.print("\t mapped from: ");
-  Serial.println(num);
-  delay(1000);
-  allOff();
+    if (mapChange == 8)
+      eight();
+
+    if (mapChange == 9)
+      nine();
+
+    Serial.print(mapChange);
+    Serial.print("\t mapped from: ");
+    Serial.println(num);
+  }
+  else
+  {
+    return 0;
+  }
 }
 
 void ledOn(int x, int y) //x == rows, y == cols
