@@ -53,6 +53,8 @@ int randomLoop()
 
   if (buttonState == HIGH)
   {
+    allOff();
+    
     int num;
     int mapChange;
     int thouNum = dNum * 1000;
@@ -89,6 +91,7 @@ int randomLoop()
     Serial.print(mapChange);
     Serial.print("\t mapped from: ");
     Serial.println(num);
+    delay(300); //debounce icw first line in void loop() allOff();
   }
   else
   {
@@ -99,6 +102,11 @@ int randomLoop()
 void ledOn(int x, int y) //x == rows, y == cols
 {
   digitalWrite(ledMatrix[x][y], HIGH);
+}
+
+void ledOff(int x, int y)
+{
+  digitalWrite(ledMatrix[x][y], LOW);
 }
 
 void one()
@@ -205,7 +213,29 @@ void nine()
   }
 }
 
-void allOff() //All LEDs off for 1 second
+void allOn()
+{
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOn(i, j);
+    }
+  }
+}
+
+void allOff()
+{
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOff(i, j);
+    }
+  }
+}
+
+void allOffOneSec() //All LEDs off for 1 second
 {
   for (int i = 0; i < 3; i++)
   {
@@ -217,7 +247,7 @@ void allOff() //All LEDs off for 1 second
   delay(1000);
 }
 
-void allOn() //All LEDs on for 1 second
+void allOnOneSec() //All LEDs on for 1 second
 {
   for (int i = 0; i < 3; i++)
   {
