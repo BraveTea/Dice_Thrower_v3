@@ -7,7 +7,9 @@
 int buttonState;
 int pushPin = 11;
 
-const int dNum = 6; //as in d8 or d6 or d4 CAN'T BE HIGHER THAN 9!
+const int dNum = 9; //as in d8 or d6 or d4 CAN'T BE HIGHER THAN 9!
+int jumbleSpeed = 66; 
+int snakeSpeed = 66;
 
 const int ROW_COUNT = 3;
 const int COL_COUNT = 3;
@@ -53,8 +55,11 @@ int randomLoop()
 
   if (buttonState == HIGH)
   {
-    allOff();
+    //allOff();
+    //delay(100); //put in in order to see the difference between two "throws" with a similar outcome
     
+    snake();
+
     int num;
     int mapChange;
     int thouNum = dNum * 1000;
@@ -258,3 +263,160 @@ void allOnOneSec() //All LEDs on for 1 second
   }
   delay(1000);
 }
+
+
+
+/* Option 1 : First run is ON one by one, rest OFF one by one
+  void jumble()
+  {
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOn(i, j);
+      delay(jumbleSpeed);
+      ledOff(i, j);
+      delay(jumbleSpeed);
+    }
+  }
+  }
+*/
+
+/* Option 2 : First run is blank. Annoying, need to do a do/while loop which is too much recoding
+  void jumble()
+  {
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOff(i, j);
+      delay(jumbleSpeed);
+    }
+  }
+  }
+*/
+
+/* Option 3 : Another option, no real remarks
+  void jumble()
+  {
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOn(i, j);
+      delay(jumbleSpeed);
+    }
+  }
+  allOff();
+  delay(jumbleSpeed);
+  }
+*/
+
+void jumble() //Option 4 : Snake there and back. Favourite for now
+{
+  allOff();
+  delay(33);
+  for (int i = 0; i < 3; i++)
+  {
+    for (int j = 0; j < 3; j++)
+    {
+      ledOn(i, j);
+      delay(jumbleSpeed);
+    }
+  }
+  for (int i = 2; i >= 0; i--)
+  {
+    for (int j = 2; j >= 0; j--)
+    {
+      ledOff(i, j);
+      delay(jumbleSpeed);
+    }
+  }
+}
+
+// I could use all the options below and link them to the
+// the random() so that each time you "throw" you will 
+// get a different jumble/snake (although it must feel random
+// and not linked to the number thrown)(problem there)
+
+/* Option 1 : Snakes through the columns and back.
+void snake()
+{
+  allOff();
+  delay(33);
+  
+  for (int i = 0; i < 3; i++)
+  {
+    ledOn(i, 0);
+    delay(snakeSpeed);
+  }
+  for (int j = 2; j >= 0; j--)
+  {
+    ledOn(j, 1);
+    delay(snakeSpeed);
+  }
+  for (int k = 0; k < 3; k++)
+  {
+    ledOn(k, 2);
+    delay(snakeSpeed);
+  }
+  for (int k = 2; k >= 0; k--)
+  {
+    ledOff(k, 2);
+    delay(snakeSpeed);
+  }
+  for (int j = 0; j < 3; j++)
+  {
+    ledOff(j, 1);
+    delay(snakeSpeed);
+  }
+  for (int i = 2; i >= 0; i--)
+  {
+    ledOff(i, 0);
+    delay(snakeSpeed);
+  }
+}
+*/
+
+void snake() //Option 2 : this snakes in a clockwise circle to the middle, and back
+{
+  allOff();
+  delay(33);
+
+  for (int i = 0; i < 3; i++)
+  {
+    ledOn(0, i);
+    delay(snakeSpeed);
+  }
+  ledOn(1, 2);
+  delay(snakeSpeed);
+  
+  for (int j = 2; j >= 0; j--)
+  {
+    ledOn(2, j);
+    delay(snakeSpeed);
+  }
+  ledOn(1, 0);
+  delay(snakeSpeed);
+  ledOn(1, 1);
+  delay(snakeSpeed);
+
+  ledOff(1, 1);
+  delay(snakeSpeed);
+  ledOff(1, 0);
+  delay(snakeSpeed);
+  for (int j = 0; j < 3; j++)
+  {
+    ledOff(2, j);
+    delay(snakeSpeed);
+  }
+  ledOff(1, 2);
+  delay(snakeSpeed);
+
+  for (int i = 2; i >= 0; i--)
+  {
+    ledOff(0, i);
+    delay(snakeSpeed);
+  }
+}
+
