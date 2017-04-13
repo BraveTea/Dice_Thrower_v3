@@ -9,6 +9,7 @@ int pushPin = 11;
 
 const int dNum = 9; //as in d8 or d6 or d4 CAN'T BE HIGHER THAN 9!
 int jumbleSpeed = 66; 
+int snakeSpeed = 46; //seems to be the best speed. purely subjectively tested on sight
 
 const int ROW_COUNT = 3;
 const int COL_COUNT = 3;
@@ -347,37 +348,37 @@ void snake()
   for (int i = 0; i < 3; i++)
   {
     ledOn(i, 0);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   for (int j = 2; j >= 0; j--)
   {
     ledOn(j, 1);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   for (int k = 0; k < 3; k++)
   {
     ledOn(k, 2);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   for (int k = 2; k >= 0; k--)
   {
     ledOff(k, 2);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   for (int j = 0; j < 3; j++)
   {
     ledOff(j, 1);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   for (int i = 2; i >= 0; i--)
   {
     ledOff(i, 0);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
 }
 */
 
-void snake()
+void snake() //Option 2 : this snakes in a clockwise circle to the middle, and back
 {
   allOff();
   delay(33);
@@ -385,37 +386,37 @@ void snake()
   for (int i = 0; i < 3; i++)
   {
     ledOn(0, i);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   ledOn(1, 2);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
   
   for (int j = 2; j >= 0; j--)
   {
     ledOn(2, j);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   ledOn(1, 0);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
   ledOn(1, 1);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
 
   ledOff(1, 1);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
   ledOff(1, 0);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
   for (int j = 0; j < 3; j++)
   {
     ledOff(2, j);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
   ledOff(1, 2);
-  delay(jumbleSpeed);
+  delay(snakeSpeed);
 
   for (int i = 2; i >= 0; i--)
   {
     ledOff(0, i);
-    delay(jumbleSpeed);
+    delay(snakeSpeed);
   }
 }
 
